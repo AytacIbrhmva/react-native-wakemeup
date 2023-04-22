@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Map from './components/Map'
+import CurrentLoc from './components/CurrentLoc';
+import CameraAccess from './components/CameraAccess';
+import Constants from "expo-constants";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {/* <Map /> */}
+      {/* <CurrentLoc /> */}
+      <CameraAccess />
+      <Map />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+      flex: 1,
+      backgroundColor: '#90be6d',
+      top: Constants.statusBarHeight + 10,
+      gap: 40,
   },
-});
+})
