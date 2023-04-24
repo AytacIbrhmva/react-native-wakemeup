@@ -3,7 +3,7 @@ import { StyleSheet, View, Text,  TextInput, Button } from "react-native";
 import { useState, useEffect } from "react";
 import * as Location from 'expo-location';
 
-export default function CurrentLoc() {
+export default function CurrentLoc({setGetCurrentLocation}) {
     const [location, setLocation] = useState();
     const [address, setAddress] = useState();
     const [currentLocation, setCurrentLocation] = useState()
@@ -14,14 +14,13 @@ export default function CurrentLoc() {
         const getPermissions = async () => {
             let {status} = await Location.requestForegroundPermissionsAsync();
             if(status !== 'granted') {
-            //   console.log('Please grant location permission'); 
               return; 
             }
 
             let currentLocation = await Location.getCurrentPositionAsync({});
             setLocation(currentLocation)
-            // console.log('Location');
-            // console.log(currentLocation);
+            setGetCurrentLocation(currentLocation)
+            // console.log(currentLocation.coords);
         };
 
         getPermissions();
@@ -39,19 +38,20 @@ export default function CurrentLoc() {
             latitude: location.coords.latitude
         })
 
-        console.log('Reverse Geocoded:');
+        // console.log('Reverse Geocoded:');
         // console.log(location);
-        setCurrentLocation(location.coords)
+        // setCurrentLocation(location.coords)
     };
 
   return (
     <View style={styles.container}>
-        <TextInput placeholder="Address" value={address} onChangeText={setAddress} />
-        <Button title='Geocode Address' onPress={geocode} />
+        {/* <TextInput placeholder="Address" value={address} onChangeText={setAddress} /> */}
+        {/* <Button title='Geocode Address' onPress={geocode} /> */}
         <Button title='Reverse Geocode Current Location' onPress={reverseGeocode} />
+        {/* <Text>{currentLocation}</Text> */}
 
-        <Text>Current location longitude: {currentLocation.longitude ? currentLocation.longitude : null}</Text>
-        <Text>Current location longitude: {currentLocation.latitude ? currentLocation.latitude : null}</Text>
+        {/* <Text>Current location longitude: {currentLocation.longitude ? currentLocation.longitude : null}</Text> */}
+        {/* <Text>Current location longitude: {currentLocation.latitude ? currentLocation.latitude : null}</Text> */}
         <StatusBar style="auto" />
     </View>
   );
@@ -59,7 +59,7 @@ export default function CurrentLoc() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        marginTop: 130,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',

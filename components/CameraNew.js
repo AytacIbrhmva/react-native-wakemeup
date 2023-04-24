@@ -7,9 +7,7 @@ import Constants from "expo-constants";
 
 export default function CameraAccess() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
-  const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.front)
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
   const cameraRef = useRef(null)
 
   useEffect(() => {
@@ -19,30 +17,6 @@ export default function CameraAccess() {
       setHasCameraPermission(cameraStatus.status === 'granted')
     })();
   }, [])
-
-  const takePicture = async () => {
-    if(cameraRef) {
-      try {
-        const data = await cameraRef.current.takePictureAsync();
-        console.log(data);
-        setImage(data.uri)
-      } catch(e) {
-        console.log(e);
-      }
-    }
-  }
-
-  const saveImage = async () => {
-    if(image) {
-      try{
-        await MediaLibrary.createAssetAsync(image);
-        alert('Picture save!')
-        setImage(null)
-      } catch(e) {
-        console.log(e);
-      }
-    }
-  }
 
   if(hasCameraPermission === false) {
     return <Text>No access to camera</Text>
@@ -54,7 +28,6 @@ export default function CameraAccess() {
       <Camera 
         style={styles.camera}
         type={type}
-        flashMode={flash}
         ref={cameraRef}
         ratio={'1:1'}
       >
